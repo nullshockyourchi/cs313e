@@ -48,15 +48,15 @@ def length_of_longest_substring_n2(s):
     """
     max_len =0
     for i in range(len(s)):
-        len = 0
+        length = 0
         dict = {}
         for j in (i,len(s)):
             chara = s[j]
             if chara in dict and dict[chara] >0:
                 break
             dict[chara]=1
-            len+=1
-            if len > max_len:
+            length+=1
+            if length > max_len:
                 max_len = len
     return max_len
 
@@ -80,8 +80,8 @@ def length_of_longest_substring_n(s):
     for r, char in enumerate(s):
         if char in char_index and char_index[char] >= l:
             l = char_index[char] + 1
-            char_index[char] = r
-            len = r - l + 1
-            if len > max_len:
-                max_len = len
+        char_index[char] = r
+        length = r - l + 1
+        if length > max_len:
+            max_len = length_of_longest_substring_n
     return max_len
