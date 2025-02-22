@@ -16,8 +16,6 @@ UT EID 1: ac82885
 UT EID 2: N/A
 """
 
-
-# TODO: implement this function. You may delete this comment when you are done.
 def length_of_longest_substring_n3(s):
     """
     Finds the length of the longest substring without repeating characters
@@ -28,7 +26,6 @@ def length_of_longest_substring_n3(s):
            in s that contains no repeating characters.
     """
     max_length = 0
-    
     for i in range(len(s)):
         used_characters = []
         for j in range(i, len(s)):
@@ -36,12 +33,8 @@ def length_of_longest_substring_n3(s):
                 break
             used_characters.append(s[j])
             max_length = max(max_length, len(used_characters))
-    
     return max_length
 
-
-
-# TODO: implement this function. You may delete this comment when you are done.
 def length_of_longest_substring_n2(s):
     """
     Finds the length of the longest substring without repeating characters
@@ -53,10 +46,20 @@ def length_of_longest_substring_n2(s):
     post: Returns an integer >= 0 representing the length of the longest substring
           in s that contains no repeating characters.
     """
-    pass
+    max_len =0
+    for i in range(len(s)):
+        len = 0
+        dict = {}
+        for j in (i,len(s)):
+            chara = s[j]
+            if chara in dict and dict[chara] >0:
+                break
+            dict[chara]=1
+            len+=1
+            if len > max_len:
+                max_len = len
+    return max_len
 
-
-# TODO: implement this function. You may delete this comment when you are done.
 def length_of_longest_substring_n(s):
     """
     Finds the length of the longest substring without repeating characters
@@ -70,4 +73,15 @@ def length_of_longest_substring_n(s):
     post: Returns an integer >= 0 representing the length of the longest substring
           in s that contains no repeating characters.
     """
-    pass
+    char_index = {}
+    max_len = 0
+    l = 0
+    
+    for r, char in enumerate(s):
+        if char in char_index and char_index[char] >= l:
+            l = char_index[char] + 1
+            char_index[char] = r
+            len = r - l + 1
+            if len > max_len:
+                max_len = len
+    return max_len
