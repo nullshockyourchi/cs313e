@@ -16,8 +16,6 @@ UT EID 1:AC82885
 UT EID 2:
 """
 
-
-# TODO: Modify this function. You may delete this comment when you are done.
 def group_sum(start, nums, target):
     """
     Given a list of ints, determine if there exists a group of some ints that sum to the
@@ -35,10 +33,9 @@ def group_sum(start, nums, target):
     elif group_sum(start+1,nums,target):
         return True
     return False
-    
 
 
-# TODO: Modify this function. You may delete this comment when you are done.
+
 def group_sum_6(start, nums, target):
     """
     Given a list of ints, determine if there exists a group of some ints that sum to the
@@ -52,14 +49,15 @@ def group_sum_6(start, nums, target):
         return True
     if start == len(nums):
         return False
-    if group_sum_6(start+1,nums,target-nums[start]) and nums[start] == 6:
+    if nums[start] == 6:
+        return group_sum_6(start+1,nums,target-nums[start])
+    if group_sum_6(start+1,nums,target-nums[start]):
         return True
     elif group_sum_6(start+1,nums,target):
         return True
     return False
 
 
-# TODO: Modify this function. You may delete this comment when you are done.
 def group_no_adj(start, nums, target):
     """
     Given a list of ints, determine if there exists a group of some ints that sum to
@@ -71,7 +69,7 @@ def group_no_adj(start, nums, target):
     """
     if target==0:
         return True
-    if start == len(nums):
+    if start >= len(nums): #lol oops I should have made this >= for all checks. forgot I did start+2
         return False
     if group_no_adj(start+2,nums,target-nums[start]):
         return True
@@ -80,7 +78,6 @@ def group_no_adj(start, nums, target):
     return False
 
 
-# TODO: Modify this function. You may delete this comment when you are done.
 def group_sum_5(start, nums, target):
     """
     Given a list of ints, determine if there exists a group of some ints that sum to
@@ -92,16 +89,14 @@ def group_sum_5(start, nums, target):
     """
     if target==0:
         return True
-    if start == len(nums):
+    if start >= len(nums):
         return False
-    if group_sum_6(start+2,nums,target-nums[start]) and nums[start] == 6:
+    if group_sum_5(start+2,nums,target-nums[start]) and nums[start] == 5:
         return True
-    elif group_sum_6(start+1,nums,target):
+    elif group_sum_5(start+1,nums,target):#LMFAO i was calling sum_6
         return True
     return False
 
-
-# TODO: Modify this function. You may delete this comment when you are done.
 def group_sum_clump(start, nums, target):
     """
     Given a list of ints, determine if there exists a group of some ints that sum to
@@ -115,23 +110,24 @@ def group_sum_clump(start, nums, target):
     """
     if target==0:
         return True
-    if start == len(nums):
+    if start>=len(nums):
         return False
-    clump = nums[start]
-    right_index = start+1
-    for i in range(start,len(nums)-1):
+    clump_sum=nums[start]
+    next_index=start+1
+    for i in range(start+1,len(nums)):
         if nums[i]==nums[start]:
-            clump += nums[i]
-            right_index += 1
-    if group_sum_clump(right_index,nums,target-clump):
+            clump_sum+=nums[i]
+            next_index=i+1
+        else:
+            break
+    if group_sum_clump(next_index,nums,target-clump_sum):
         return True
-    if group_sum_clump(right_index,nums,target):
+    if group_sum_clump(next_index,nums,target):
         return True
-    return False
+    return False#hopefully fixed?
 
 
 
-# TODO: Modify this function
 def split_array(nums):
     """
     Given a list of ints, determine if the numbers can be split evenly into two groups
@@ -156,9 +152,6 @@ def split_array(nums):
         return False #rahhh i love copy and pasting group_sum 19283712 times
     return helper_func(0, nums, target)
 
-
-
-# TODO: Modify this function. You may delete this comment when you are done.
 def split_odd_10(nums):
     """
     Given a list of ints, determine if the numbers can be split evenly into two groups
@@ -179,7 +172,6 @@ def split_odd_10(nums):
         return False
     return helper_func(0, 0, 0)
 
-# TODO: Modify this function. You may delete this comment when you are done.
 def split_53(nums):
     """
     Given a list of ints, determine if the numbers can be split evenly into two groups
