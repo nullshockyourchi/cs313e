@@ -30,7 +30,7 @@ def group_sum(start, nums, target):
         return False
     if group_sum(start+1,nums,target-nums[start]):
         return True
-    elif group_sum(start+1,nums,target):
+    if group_sum(start+1,nums,target):
         return True
     return False
 
@@ -53,7 +53,7 @@ def group_sum_6(start, nums, target):
         return group_sum_6(start+1,nums,target-nums[start])
     if group_sum_6(start+1,nums,target-nums[start]):
         return True
-    elif group_sum_6(start+1,nums,target):
+    if group_sum_6(start+1,nums,target):
         return True
     return False
 
@@ -73,7 +73,7 @@ def group_no_adj(start, nums, target):
         return False
     if group_no_adj(start+2,nums,target-nums[start]):
         return True
-    elif group_no_adj(start+1,nums,target):
+    if group_no_adj(start+1,nums,target):
         return True
     return False
 
@@ -91,9 +91,9 @@ def group_sum_5(start, nums, target):
         return True
     if start >= len(nums):
         return False
-    if group_sum_5(start+2,nums,target-nums[start]) and nums[start] == 5:
+    if group_sum_5(start+2,nums,target-nums[start]) and nums[start] % 5 == 0:
         return True
-    elif group_sum_5(start+1,nums,target):#LMFAO i was calling sum_6
+    if group_sum_5(start+1,nums,target):#LMFAO i was calling sum_6
         return True
     return False
 
