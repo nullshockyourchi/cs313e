@@ -89,13 +89,18 @@ def group_sum_5(start, nums, target):
     """
     if target==0:
         return True
-    if start >= len(nums):
+    if start>=len(nums):
         return False
-    if group_sum_5(start+2,nums,target-nums[start]) and nums[start] % 5 == 0:
+    if nums[start]%5==0:
+        if start+1<len(nums) and nums[start+1]==1:
+            return group_sum_5(start+2,nums,target-nums[start])
+        return group_sum_5(start+1,nums,target-nums[start])
+    if group_sum_5(start+1,nums,target-nums[start]):
         return True
-    if group_sum_5(start+1,nums,target):#LMFAO i was calling sum_6
+    if group_sum_5(start+1,nums,target):
         return True
-    return False
+    return False#split up the and function to a nested if statement, it feels similar but
+    #I think it fixes the issues when there is one element and 10,5,4
 
 def group_sum_clump(start, nums, target):
     """
