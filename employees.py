@@ -41,7 +41,7 @@ class Employee(ABC):
     def __init__(self, name, manager, salary, savings):
         if salary < 0:
             raise ValueError(SALARY_ERROR_MESSAGE)
-        
+
         self.relationships = {}
         self.savings = savings
         self.is_employed = True
@@ -50,20 +50,41 @@ class Employee(ABC):
         self.performance = INITIAL_PERFORMANCE
         self.happiness = INITIAL_HAPPINESS
         self.salary = salary
+    @abstractmethod
+    def work(self):
+        """
+        Abstract method
+        """
+        pass
     @property
     def name(self):
+        """
+        returns name
+        """
         return self.__name
     @property
     def manager(self):
+        """
+        returns manager
+        """
         return self.__manager
     @property
     def performance(self):
+        """
+        returns performance
+        """
         return self._performance
     @property
     def happiness(self):
+        """
+        returns happy
+        """
         return self._happiness
     @property
     def salary(self):
+        """
+        money level
+        """
         return self._salary
     @performance.setter
     def performance(self, value):
@@ -78,7 +99,11 @@ class Employee(ABC):
         self._salary = value
 
     def interact(self, other):
-        if other.name in self.relationships.keys() == False:
+        """
+        have 2 employees talk and be cool w/ eachother
+        unless they hate eachother then they get not happy
+        """
+        if other.name not in self.relationships:
             self.relationships[other.name] = 0
         if self.relationships[other.name] > RELATIONSHIP_THRESHOLD:
             self.happiness += 1
@@ -89,6 +114,9 @@ class Employee(ABC):
             self.happiness -= 1
 
     def daily_expense(self):
+        """
+        "death and taxes"
+        """
         self.happiness -= 1
         self.savings -= DAILY_EXPENSE
 
