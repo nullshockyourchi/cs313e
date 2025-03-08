@@ -181,8 +181,7 @@ class PermanentEmployee(Employee):
     def interact(self, other):
         super().interact(other)
         if other == self.manager:
-            if (other.happiness > HAPPINESS_THRESHOLD and
-            self.performance > PERM_EMPLOYEE_PERFORMANCE_THRESHOLD):
-                self.savings += MANAGER_BONUS
+            if other.happiness > HAPPINESS_THRESHOLD and self.performance > PERM_EMPLOYEE_PERFORMANCE_THRESHOLD:
+                self.savings+=MANAGER_BONUS
             elif other.happiness <= HAPPINESS_THRESHOLD:
-                self.happiness -= 1
+                self.happiness-=1
