@@ -129,6 +129,15 @@ class Manager(Employee):
     """
     A subclass of Employee representing a manager.
     """
+    def work(self):
+        performance_change = random.randint(0, 5)
+        self.performance += performance_change
+        if performance_change < 0:
+            self.happiness -= 1
+            for emp_name in self.relationships:
+                self.relationships[emp_name] -= 1
+        else:
+            self.happiness += 1
 
 
 # TODO: implement this class. You may delete this comment when you are done.
