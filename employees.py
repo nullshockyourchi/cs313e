@@ -146,7 +146,7 @@ class TemporaryEmployee(Employee):
     A subclass of Employee representing a temporary employee.
     """
     def work(self):
-        performance_change = random.randint(-5, 5)
+        performance_change = random.randint(-15, 15)
         self.performance += performance_change
         if performance_change < 0:
             self.happiness-=2
