@@ -32,7 +32,7 @@ PERCENTAGE_MIN = 0
 SALARY_ERROR_MESSAGE = "Salary must be non-negative."
 
 
-# TODO: implement this class. You may delete this comment when you are done.
+
 class Employee(ABC):
     """
     Abstract base class representing a generic employee in the system.
@@ -124,7 +124,7 @@ class Employee(ABC):
         "\n\tHappiness: " + str(self.happiness)+"%"+"\n\tPerformance: "+str(self.performance) + "%"
 
 
-# TODO: implement this class. You may delete this comment when you are done.
+
 class Manager(Employee):
     """
     A subclass of Employee representing a manager.
@@ -133,22 +133,57 @@ class Manager(Employee):
         performance_change = random.randint(-5, 5)
         self.performance += performance_change
         if performance_change < 0:
-            self.happiness -= 1
+            self.happiness -=1
             for emp_name in self.relationships:
                 self.relationships[emp_name] -= 1
         else:
             self.happiness += 1
 
 
-# TODO: implement this class. You may delete this comment when you are done.
+
 class TemporaryEmployee(Employee):
     """
     A subclass of Employee representing a temporary employee.
     """
+    def work(self):
+        performance_change = random.randint(-5, 5)
+        self.performance += performance_change
+        if performance_change < 0:
+            self.happiness-=2
+        else:
+            self.happiness+=1
+
+    def interact(self, other):
+        super().interact(other)
+
+        if other == self.manager:
+            if (other.happiness > HAPPINESS_THRESHOLD and
+            self.performance >= TEMP_EMPLOYEE_PERFORMANCE_THRESHOLD):
+                self.savings += MANAGER_BONUS
+            elif other.happiness <= HAPPINESS_THRESHOLD:
+                self.salary = self.salary//2
+                self.happiness-=5
+                if self.salary == 0:
+                    self.is_employed = False
 
 
-# TODO: implement this class. You may delete this comment when you are done.
+
 class PermanentEmployee(Employee):
     """
     A subclass of Employee representing a permanent employee.
     """
+    def work(self):
+        performance_change = random.randint(-10, 10)
+        self.performance += performance_change
+        if performance_change >= 0:
+            self.happiness += 1
+
+    def interact(self, other):
+        super().interact(other)
+
+        if other == self.manager:
+            if (other.happiness > HAPPINESS_THRESHOLD and
+            self.performance > PERM_EMPLOYEE_PERFORMANCE_THRESHOLD):
+                self.savings += MANAGER_BONUS
+            elif other.happiness <= HAPPINESS_THRESHOLD:
+                self.happiness -= 1
