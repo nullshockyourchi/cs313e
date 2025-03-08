@@ -130,7 +130,7 @@ class Manager(Employee):
     A subclass of Employee representing a manager.
     """
     def work(self):
-        performance_change = random.randint(0, 5)
+        performance_change = random.randint(-5, 5)
         self.performance += performance_change
         if performance_change < 0:
             self.happiness -= 1
