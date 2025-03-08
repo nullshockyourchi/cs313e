@@ -55,7 +55,6 @@ class Employee(ABC):
         """
         Abstract method
         """
-        pass
     @property
     def name(self):
         """
