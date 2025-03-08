@@ -120,8 +120,14 @@ class Employee(ABC):
         self.savings -= DAILY_EXPENSE
 
     def __str__(self):
-        return self.name + "\n\tSalary: $"+str(self.salary)+"\n\tSavings: $" + str(self.savings) + \
-        "\n\tHappiness: " + str(self.happiness)+"%"+"\n\tPerformance: "+str(self.performance) + "%"
+        return (
+            f"{self.name}\n"
+            f"\tSalary: ${self.salary}\n"
+            f"\tSavings: ${self.savings}\n"
+            f"\tHappiness: {self.happiness}%\n"
+            f"\tPerformance: {self.performance}%"
+        ) #trying to remember how to use f string last minute :(
+
 
 
 
@@ -181,7 +187,8 @@ class PermanentEmployee(Employee):
     def interact(self, other):
         super().interact(other)
         if other == self.manager:
-            if other.happiness > HAPPINESS_THRESHOLD and self.performance > PERM_EMPLOYEE_PERFORMANCE_THRESHOLD:
+            if (other.happiness > HAPPINESS_THRESHOLD and
+            self.performance > PERM_EMPLOYEE_PERFORMANCE_THRESHOLD):
                 self.savings+=MANAGER_BONUS
             elif other.happiness <= HAPPINESS_THRESHOLD:
                 self.happiness-=1
