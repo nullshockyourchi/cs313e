@@ -24,28 +24,28 @@ class Node:
     term in a polynomial.
     """
 
-    def __init__(self, c, exp, link=None):
+    def __init__(self, coeff, exp, link=None):
         """
         Node Constructor for polynomial linked lists.
 
         Args:
-        - c: The coefficient of the term.
+        - coeff: The coefficient of the term.
         - exp: The exponent of the term.
         - link: The next node in the linked list.
         """
-        self.c = c
+        self.coeff = coeff
         self.exp = exp
         self.next = link
 
     @property
-    def c(self):
+    def coeff(self):
         """
         Getter method for the coefficient attribute.
         """
         return self.__coeff
 
-    @c.setter
-    def c(self, value):
+    @coeff.setter
+    def coeff(self, value):
         """
         Setter method for the coefficient attribute.
         """
@@ -92,7 +92,7 @@ class Node:
         """
         String representation of each term in a polynomial linked list.
         """
-        return f"({self.c}, {self.exp})"
+        return f"({self.coeff}, {self.exp})"
 
 
 class LinkedList:
@@ -108,12 +108,12 @@ class LinkedList:
         # self.dummy = Node(None, None)
         self.head = None
 
-    def insert_term(self, c, exp):
+    def insert_term(self, coeff, exp):
         '''i mean.. it inserts terms to the linked list w/ the exponent'''
-        if c == 0:
+        if coeff == 0:
             return
 
-        nnode = Node(c, exp)
+        nnode = Node(coeff, exp)
         if not self.head or self.head.exp<exp:
             nnode.next = self.head
             self.head = nnode
@@ -124,8 +124,8 @@ class LinkedList:
             current=current.next
 
         if current.next and current.next.exp==exp:
-            current.next.c+=c
-            if current.next.c == 0:
+            current.next.coeff+=coeff
+            if current.next.coeff == 0:
                 current.next=current.next.next
         else:
             nnode.next = current.next
@@ -138,13 +138,13 @@ class LinkedList:
 
         while term1 or term2:
             if not term2 or (term1 and term1.exp>term2.exp):
-                result.insert_term(term1.c, term1.exp)
+                result.insert_term(term1.coeff, term1.exp)
                 term1 = term1.next
             elif not term1 or (term2 and term2.exp>term1.exp):
-                result.insert_term(term2.c, term2.exp)
+                result.insert_term(term2.coeff, term2.exp)
                 term2 = term2.next
             else:
-                combined_coeff = term1.c+term2.c
+                combined_coeff = term1.coeff+term2.coeff
                 if combined_coeff>0:
                     result.insert_term(combined_coeff, term1.exp)
                 term1, term2 = term1.next, term2.next
@@ -164,7 +164,7 @@ class LinkedList:
             temp = LinkedList()
             term2 = other.head
             while term2:
-                new_coeff = term1.c*term2.c
+                new_coeff = term1.coeff*term2.coeff
                 new_exp = term1.exp+term2.exp
                 temp.insert_term(new_coeff, new_exp)
                 term2=term2.next
@@ -176,10 +176,10 @@ class LinkedList:
         terms=[]
         current = self.head
         while current:
-            if current.c>0 and terms:
-                terms.append(f"+ ({current.c}, {current.exp})")
+            if current.coeff>0 and terms:
+                terms.append(f"+ ({current.coeff}, {current.exp})")
             else:
-                terms.append(f"({current.c}, {current.exp})")
+                terms.append(f"({current.coeff}, {current.exp})")
             current = current.next
         return " ".join(terms) if terms else "0"
 
@@ -197,8 +197,8 @@ def main():
     i+=1
 
     for _ in range(n):
-        c, exp = map(int, input_data[i].split())
-        p.insert_term(c, exp)
+        coeff, exp = map(int, input_data[i].split())
+        p.insert_term(coeff, exp)
         i+=1
     i+=1
     # read data from stdin (terminal/file) using input() and create polynomial q
@@ -206,8 +206,8 @@ def main():
     m = int(input_data[i])
     i+=1
     for _ in range(m):
-        c, exp = map(int, input_data[i].split())
-        q.insert_term(c, exp)
+        coeff, exp = map(int, input_data[i].split())
+        q.insert_term(coeff, exp)
         i+=1
     # get sum of p and q as a new linked list and print sum
     print(p.add(q))
