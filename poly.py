@@ -145,7 +145,7 @@ class LinkedList:
                 term2 = term2.next
             else:
                 combined_coeff = term1.coeff+term2.coeff
-                if combined_coeff>0:
+                if combined_coeff!=0:
                     result.insert_term(combined_coeff, term1.exp)
                 term1, term2 = term1.next, term2.next
 
