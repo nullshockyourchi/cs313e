@@ -113,27 +113,26 @@ class LinkedList:
         if coeff == 0:
             return
 
-        if not self.head or exp > self.head.exp:
+        if not self.head or exp>self.head.exp:
             self.head = Node(coeff, exp, self.head)
             return
 
         current = self.head
         while True:
-            if current.exp==exp:
+            if current.exp == exp:
                 new_coeff = current.coeff + coeff
-                if new_coeff==0:
+                if new_coeff == 0:
                     if current is self.head:
-                        self.head=current.next
+                        self.head = current.next
                     else:
-                        prev=self.head
-                        while prev.next!=current:
-                            prev=prev.next
-                        prev.next=current.next
+                        prev = self.head
+                        while prev.next != current:
+                            prev = prev.next
+                        prev.next = current.next
                 else:
-                    current.coeff=new_coeff
+                    current.coeff = new_coeff
                 return
-
-            if not current.next or exp>current.next.exp:
+            if not current.next or exp > current.next.exp:
                 current.next = Node(coeff, exp, current.next)
                 return
             current = current.next
@@ -155,10 +154,6 @@ class LinkedList:
                 if combined_coeff != 0:
                     result.insert_term(combined_coeff, term1.exp)
                 term1, term2 = term1.next, term2.next
-
-        if not result.head:
-            result.insert_term(0, 0)
-    return result
 
         return result
 
@@ -186,13 +181,12 @@ class LinkedList:
     def __str__(self):
         if not self.head:
             return "0"
-
         terms = []
         current = self.head
         while current:
             terms.append(f"({current.coeff}, {current.exp})")
             current = current.next
-        return " + ".join(terms) if terms else "0"
+        return " + ".join(terms)
 
 
 
