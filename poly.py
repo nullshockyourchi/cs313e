@@ -173,15 +173,14 @@ class LinkedList:
         return result
 
     def __str__(self):
-        terms=[]
+        terms = []
         current = self.head
         while current:
-            if current.coeff>0 and terms:
-                terms.append(f"+ ({current.coeff}, {current.exp})")
-            else:
-                terms.append(f"({current.coeff}, {current.exp})")
+            terms.append(f"({current.coeff}, {current.exp})")
             current = current.next
-        return " ".join(terms) if terms else "0"
+        if not terms:
+            return "0"
+        return " + ".join(terms)
 
 
 
