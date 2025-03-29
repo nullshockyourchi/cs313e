@@ -113,23 +113,29 @@ class LinkedList:
         if coeff == 0:
             return
 
-        nnode = Node(coeff, exp)
-        if not self.head or self.head.exp<exp:
-            nnode.next = self.head
-            self.head = nnode
+        if not self.head or exp>self.head.exp:
+            self.head = Node(coeff, exp, self.head)
             return
 
         current = self.head
-        while current.next and current.next.exp>exp:
-            current=current.next
-
-        if current.next and current.next.exp == exp:
-            current.next.coeff += coeff
-            if current.next.coeff == 0:
-                current.next = current.next.next
-        else:
-            nnode.next = current.next
-            current.next = nnode
+        while True:
+            if current.exp == exp:
+                new_coeff = current.coeff + coeff
+                if new_coeff == 0:
+                    if current is self.head:
+                        self.head = current.next
+                    else:
+                        prev = self.head
+                        while prev.next != current:
+                            prev = prev.next
+                        prev.next = current.next
+                else:
+                    current.coeff = new_coeff
+                return
+            if not current.next or exp > current.next.exp:
+                current.next = Node(coeff, exp, current.next)
+                return
+            current = current.next
 
     def add(self, other):
         '''adds p to polynomial as a new linklist'''
@@ -137,15 +143,15 @@ class LinkedList:
         term1, term2 = self.head, other.head
 
         while term1 or term2:
-            if not term2 or (term1 and term1.exp>term2.exp):
+            if not term2 or (term1 and term1.exp > term2.exp):
                 result.insert_term(term1.coeff, term1.exp)
                 term1 = term1.next
-            elif not term1 or (term2 and term2.exp>term1.exp):
+            elif not term1 or (term2 and term2.exp > term1.exp):
                 result.insert_term(term2.coeff, term2.exp)
                 term2 = term2.next
             else:
-                combined_coeff = term1.coeff+term2.coeff
-                if combined_coeff!=0:
+                combined_coeff = term1.coeff + term2.coeff
+                if combined_coeff != 0:
                     result.insert_term(combined_coeff, term1.exp)
                 term1, term2 = term1.next, term2.next
 
@@ -164,22 +170,22 @@ class LinkedList:
             temp = LinkedList()
             term2 = other.head
             while term2:
-                new_coeff = term1.coeff*term2.coeff
-                new_exp = term1.exp+term2.exp
+                new_coeff = term1.coeff * term2.coeff
+                new_exp = term1.exp + term2.exp
                 temp.insert_term(new_coeff, new_exp)
-                term2=term2.next
+                term2 = term2.next
             result = result.add(temp)
-            term1=term1.next
+            term1 = term1.next
         return result
 
     def __str__(self):
+        if not self.head:
+            return "0"
         terms = []
         current = self.head
         while current:
             terms.append(f"({current.coeff}, {current.exp})")
             current = current.next
-        if not terms:
-            return "0"
         return " + ".join(terms)
 
 
@@ -191,8 +197,8 @@ def main():
     input_data = input_strip.split("\n")
 
     i=0
-    p = LinkedList()
-    n = int(input_data[i])
+    p=LinkedList()
+    n=int(input_data[i])
     i+=1
 
     for _ in range(n):
@@ -201,8 +207,8 @@ def main():
         i+=1
     i+=1
     # read data from stdin (terminal/file) using input() and create polynomial q
-    q = LinkedList()
-    m = int(input_data[i])
+    q=LinkedList()
+    m=int(input_data[i])
     i+=1
     for _ in range(m):
         coeff, exp = map(int, input_data[i].split())
