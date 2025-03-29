@@ -172,6 +172,17 @@ class LinkedList:
             term1=term1.next
         return result
 
+    def __str__(self):
+        terms=[]
+        current = self.head
+        while current:
+            if current.c>0 and terms:
+                terms.append(f"+ ({current.c}, {current.exp})")
+            else:
+                terms.append(f"({current.c}, {current.exp})")
+            current = current.next
+        return " ".join(terms) if terms else "0"
+
 
 
 def main():
@@ -202,6 +213,7 @@ def main():
     print(p.add(q))
     # get product of p and q as a new linked list and print product
     print(p.mult(q))
+
 
 if __name__ == "__main__":
     main()
