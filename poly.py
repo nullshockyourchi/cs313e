@@ -123,10 +123,10 @@ class LinkedList:
         while current.next and current.next.exp>exp:
             current=current.next
 
-        if current.next and current.next.exp==exp:
-            current.next.coeff+=coeff
+        if current.next and current.next.exp == exp:
+            current.next.coeff += coeff
             if current.next.coeff == 0:
-                current.next=current.next.next
+                current.next = current.next.next
         else:
             nnode.next = current.next
             current.next = nnode
