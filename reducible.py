@@ -115,18 +115,23 @@ def is_reducible(s, hash_table, hash_memo):
     post: Returns True if s is reducible (also updates hash_memo by
           inserting s if reducible), otherwise returns False.
     """
-    if s=='i' or s=='o' or s == 'a':
+    hash_index = hash_word(s, len(hash_memo))
+    if hash_memo[hash_index] == s:
         return True
+        
+    if s == "a" or s == "i" or s == "o":
+        return True
+        
     for i,_ in enumerate(s):
         small = ""
-        for j,_ in enumerate(s):
-            if i!=j:
+        for j, _ in enumerate(s):
+            if i != j:
                 small += s[j]
-        if find_word(small, hash_table):
-            if is_reducible(small, hash_table, hash_memo):
+        if find_word(small, hash_list):
+            if is_reducible(small, hash_list, hash_memo):
                 insert_word(s, hash_memo)
                 return True
-
+    return False
 
 
 def get_longest_words(string_list):
