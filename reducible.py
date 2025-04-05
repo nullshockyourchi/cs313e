@@ -78,7 +78,7 @@ def insert_word(s, hash_table):
     index = hash_word(s, len(hash_table))
     step = step_size(s)
 
-    while hash_table[index] is not None:
+    while hash_table[index] != "":
         if hash_table[index]==s:
             return
         index = (index+step)%len(hash_table)
@@ -98,7 +98,7 @@ def find_word(s, hash_table):
     index = hash_word(s, len(hash_table))
     step = step_size(s)
 
-    while hash_table[index] is not None:
+    while hash_table[index] != "":
         if hash_table[index]==s:
             return True
         index = (index+step)%len(hash_table)
