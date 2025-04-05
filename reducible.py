@@ -115,22 +115,23 @@ def is_reducible(s, hash_table, hash_memo):
     post: Returns True if s is reducible (also updates hash_memo by
           inserting s if reducible), otherwise returns False.
     """
-    hash_index = hash_word(s, len(hash_memo))
-    if hash_memo[hash_index] == s:
+    if find_word(s, hash_memo):
         return True
         
-    if s == "a" or s == "i" or s == "o":
-        return True
-        
+    if len(s)==1:
+        return s == "a" or s == "i" or s == "o"
+    
     for i,_ in enumerate(s):
-        small = ""
-        for j, _ in enumerate(s):
+        subword = ""
+        for j, char in enumerate(s):
             if i != j:
-                small += s[j]
-        if find_word(small, hash_list):
-            if is_reducible(small, hash_list, hash_memo):
+                subword += char
+        
+        if find_word(subword, hash_table):
+            if is_reducible(subword, hash_table, hash_memo):
                 insert_word(s, hash_memo)
                 return True
+                
     return False
 
 
