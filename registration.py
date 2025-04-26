@@ -367,16 +367,16 @@ class Graph:
         def dfs(v_index):
             if self.vertices[v_index].depth != -1:
                 return self.vertices[v_index].depth
-            maxim = 0
-            for n_index, edge in enumerate(self.adjacency_matrix[v_index]):
-                if edge > 0:
-                    chain = 1 + dfs(n_index)
-                    maxim = max(maxim, chain)
-            self.vertices[v_index].depth = maxim
-            return maxim
+            max_depth = 0
+            for i, _ in enumerate(self.vertices):
+                if self.adjacency_matrix[i][v_index] == 1:
+                    depth = 1 + dfs(i)
+                    max_depth = max(max_depth, depth)
+            self.vertices[v_index].depth = max_depth
+            return max_depth
 
-        for v_index, _ in enumerate(self.vertices):
-            dfs(v_index)
+        for i, _ in enumerate(self.vertices):
+            dfs(i)
 
 
 
