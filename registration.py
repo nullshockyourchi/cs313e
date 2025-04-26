@@ -20,7 +20,7 @@ UT EID 2:
 import sys
 
 
-class HeapError(Exception):
+class HeapError(Exception): 
     """
     Custom exception class for heap errors.
     """
@@ -424,29 +424,40 @@ class Graph:
         courses = []
 
         # : Add code here. You may delete this comment when you are done.
-        pre = {v.label: 0 for v in self.vertices}
+        deg = {}
 
-        for i, _ in enumerate(self.vertices):
-            for adj in self.get_adjacent_vertices(i):
-                pre[self.vertices[adj].label]+=1
+        for vertex in self.vertices:
+            deg[vertex.label] = 0
 
-        no_pre = [v.label for v in self.vertices if pre[v.label] == 0]
+        for i, vertex in enumerate(self.vertices):
+            for j, is_edge in enumerate(self.adjacency_matrix[i]):
+                if is_edge:
+                    deg[self.vertices[j].label] += 1
+        ready = []
+        for label, degree in deg.items():
+            if degree == 0:
+                ready.append(label)
+        depth_courses = []
+        for label in ready:
+            index = self.get_index(label)
+            depth = self.vertices[index].depth
+            depth_courses.append((-depth, label))
+        depth_courses.sort()
 
-        while no_pre:
+        while depth_courses:
             semester = []
-
-            for i, course in enumerate(no_pre[:4]):
+            for _ in range(min(4, len(depth_courses))):
+                _, course = depth_courses.pop(0)
                 semester.append(course)
-                no_pre.pop(i)
-
                 course_index = self.get_index(course)
-                for adj in self.get_adjacent_vertices(course_index):
-                    adj_label = self.vertices[adj].label
-                    pre[adj_label]-=1
-
-                    if pre[adj_label] == 0:
-                        no_pre.append(adj_label)
-
+                for j, is_edge in enumerate(self.adjacency_matrix[course_index]):
+                    if is_edge:
+                        next_course = self.vertices[j].label
+                        deg[next_course] -= 1
+                        if deg[next_course] == 0:
+                            new_depth = self.vertices[j].depth
+                            depth_courses.append((-new_depth, next_course))
+                            depth_courses.sort()
             courses.append(semester)
 
         return courses
