@@ -425,36 +425,39 @@ class Graph:
 
         # : Add code here. You may delete this comment when you are done.
         in_degree = {v.label: 0 for v in self.vertices}
-        for i, _ in enumerate(self.vertices):
+
+        for i, vertex in enumerate(self.vertices):
             for j, is_edge in enumerate(self.adjacency_matrix[i]):
                 if is_edge:
-                    in_degree[self.vertices[j].label] += 1
-
+                    in_degree[self.vertices[j].label]+=1
         queue = []
         for label, degree in in_degree.items():
-            if degree == 0:
+            if degree==0:
                 index = self.get_index(label)
                 depth = self.vertices[index].depth
                 queue.append((-depth, label))
+
         queue.sort()
+
         while queue:
             semester = []
             new_courses = []
-        for _ in range(min(4, len(queue))):
-            _, course = queue.pop(0)
-            semester.append(course)
-            course_index = self.get_index(course)
-            for j, is_edge in enumerate(self.adjacency_matrix[course_index]):
-                if is_edge:
-                    next_course = self.vertices[j].label
-                    in_degree[next_course] -= 1
-                    if in_degree[next_course] == 0:
-                        new_depth = self.vertices[j].depth
-                        new_courses.append((-new_depth, next_course))
-        if semester:
-            courses.append(semester)
-        new_courses.sort()
-        queue.extend(new_courses)
+            for _ in range(min(4, len(queue))):
+                _, course = queue.pop(0)
+                semester.append(course)
+                course_index = self.get_index(course)
+                for j, is_edge in enumerate(self.adjacency_matrix[course_index]):
+                    if is_edge:
+                        next_course = self.vertices[j].label
+                        in_degree[next_course] -= 1
+                        if in_degree[next_course] == 0:
+                            new_depth = self.vertices[j].depth
+                            new_courses.append((-new_depth, next_course))
+            if semester:
+                courses.append(semester)
+            new_courses.sort()
+            queue = new_courses + queue
+
         return courses
 
 
