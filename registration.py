@@ -487,15 +487,6 @@ def main():
         start = graph.get_index(prereq)
         finish = graph.get_index(course)
         graph.add_edge(start, finish)
-    if graph.has_cycle():
-        print("Registration plan invalid because a cycle was detected.")
-    else:
-        print("Valid registration plan detected.")
-        graph.compute_depth()
-        courses = graph.get_registration_plan()
-        print("\nRegistration plan: ")
-        for semester in courses:
-            print(semester)
     ####################################################################################
     # DO NOT CHANGE ANYTHING BELOW THIS
     if graph.has_cycle():
