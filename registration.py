@@ -424,41 +424,38 @@ class Graph:
         courses = []
 
         # : Add code here. You may delete this comment when you are done.
-        deg = {}
+        in_degree = {v.label: 0 for v in self.vertices}
 
-        for vertex in self.vertices:
-            deg[vertex.label] = 0
-
-        for i, vertex in enumerate(self.vertices):
+        for i, _ in enumerate(self.vertices):
             for j, is_edge in enumerate(self.adjacency_matrix[i]):
                 if is_edge:
-                    deg[self.vertices[j].label] += 1
-        ready = []
-        for label, degree in deg.items():
+                    in_degree[self.vertices[j].label] += 1
+        queue = []
+        for label, degree in in_degree.items():
             if degree == 0:
-                ready.append(label)
-        depth_courses = []
-        for label in ready:
-            index = self.get_index(label)
-            depth = self.vertices[index].depth
-            depth_courses.append((-depth, label))
-        depth_courses.sort()
+                index = self.get_index(label)
+                depth = self.vertices[index].depth
+                queue.append((-depth, label))
 
-        while depth_courses:
+        queue.sort()
+        while queue:
             semester = []
-            for _ in range(min(4, len(depth_courses))):
-                _, course = depth_courses.pop(0)
+            new_courses = []
+            for _ in range(min(4, len(queue))):
+                _, course = queue.pop(0)
                 semester.append(course)
                 course_index = self.get_index(course)
                 for j, is_edge in enumerate(self.adjacency_matrix[course_index]):
                     if is_edge:
                         next_course = self.vertices[j].label
-                        deg[next_course] -= 1
-                        if deg[next_course] == 0:
+                        in_degree[next_course]-=1
+                        if in_degree[next_course] == 0:
                             new_depth = self.vertices[j].depth
-                            depth_courses.append((-new_depth, next_course))
-                            depth_courses.sort()
-            courses.append(semester)
+                            new_courses.append((-new_depth, next_course))
+            if semester:
+                courses.append(semester)
+            new_courses.sort()
+            queue.extend(new_courses)
 
         return courses
 
