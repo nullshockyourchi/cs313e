@@ -1,0 +1,190 @@
+
+
+
+# TODO: implement this function. You may delete this comment after you are done.
+def rail_fence_encode(string, key):
+    """
+    pre: string is a string of characters and key is a positive
+        integer 2 or greater and strictly less than the length
+        of string
+    post: returns a single string that is encoded with
+        rail fence algorithm
+    """
+    rails = ['' for _ in range(key)]
+    current = 0
+    down = False
+    for char in string:
+        rails[current]+=char
+        if current == 0 or current == key-1:
+            down = not down
+        if down:
+            current+=1
+        else:
+            current-=1
+    return ''.join(rails)
+
+
+# TODO: implement this function. You may delete this comment after you are done.
+def rail_fence_decode(string, key):
+    """
+    pre: string is a string of characters and key is a positive
+        integer 2 or greater and strictly less than the length
+        of string
+    post: function returns a single string that is decoded with
+        rail fence algorithm
+    """
+    rails = ['' for _ in range(key)]
+    lengths = [0 for _ in range(key)]
+    current = 0
+    down = False
+    for i in range(len(string)):
+        lengths[current] += 1
+        if current == 0 or current == key - 1:
+            down = not down
+        if down:
+            current+=1
+        else:
+            current-=1
+    index = 0
+    for i in range(key):
+        rails[i] = list(string[index:index + lengths[i]])
+        index += lengths[i]
+    result = []
+    current = 0
+    down = False
+    for i,_ in enumerate(string):
+        result.append(rails[current].pop(0))
+        if current == 0 or current == key - 1:
+            down = not down
+        if down:
+            current+=1
+        else:
+            current-=1
+    return ''.join(result)
+
+
+# TODO: implement this function. You may delete this comment after you are done.
+def filter_string(string):
+    """
+    pre: string is a string of characters
+    post: function converts all characters to lower case and then
+        removes all digits, punctuation marks, and spaces. It
+        returns a single string with only lower case characters
+    """
+    filtered = []
+    for ch in string:
+        lower_ch = ch.lower()
+        if lower_ch.isalpha():
+            filtered.append(lower_ch)
+    return ''.join(filtered)
+
+
+# TODO: implement this function. You may delete this comment after you are done.
+def encode_character(p, s):
+    """
+    pre: p is a character in the pass phrase and s is a character
+        in the plain text
+    post: function returns a single character encoded using the
+        Vigenere algorithm. You may not use a 2-D list
+    """
+    pass_c = ord(p) - ord('a')
+    text_char = ord(s) - ord('a')
+    new_char = (text_char + pass_c) % 26
+    encoded_char = chr(new_char + ord('a'))
+    return encoded_char
+
+
+# TODO: implement this function. You may delete this comment after you are done.
+def decode_character(p, s):
+    """
+    pre: p is a character in the pass phrase and s is a character
+        in the encrypted text
+    post: function returns a single character decoded using the
+        Vigenere algorithm. You may not use a 2-D list
+    """
+    pass_c = ord(p) - ord('a')
+    encrypted_char = ord(s) - ord('a')
+    new_char = (encrypted_char - pass_c) % 26
+    decoded_char = chr(new_char + ord('a'))
+    return decoded_char
+
+
+# TODO: implement this function. You may delete this comment after you are done.
+def vigenere_encode(string, phrase):
+    """
+    pre: string is a string of characters and phrase is a pass phrase
+    post: function returns a single string that is encoded with
+        Vigenere algorithm
+    """
+    string = filter_string(string)
+    phrase = filter_string(phrase)
+    encoded = []
+    for i, char in enumerate(string):
+        pass_char = phrase[i % len(phrase)]
+        encoded.append(encode_character(pass_char, char))
+    return ''.join(encoded)
+
+
+# TODO: implement this function. You may delete this comment after you are done.
+def vigenere_decode(string, phrase):
+    """
+    pre: string is a string of characters and phrase is a pass phrase
+    post: function returns a single string that is decoded with
+        Vigenere algorithm
+    """
+    phrase = filter_string(phrase)
+    decoded = []
+    for i, char in enumerate(string):
+        pass_char = phrase[i % len(phrase)]
+        decoded.append(decode_character(pass_char, char))
+    return ''.join(decoded)
+
+
+# TODO: implement this function. You may delete this comment after you are done.
+def main():
+    """Main function that reads stdin and runs each cipher"""
+    # read the plain text from stdin (terminal/input)
+    plain_text = input().strip()
+    # read the key from stdin (terminal/input)
+    key = int(input().strip())
+
+    # encrypt and print the encoded text using rail fence cipher
+    encoded_rail = rail_fence_encode(plain_text, key)
+    print("Rail Fence Cipher\n")
+    print(f"Plain Text: {plain_text}")
+    print(f"Key: {key}")
+    print(f"Encoded Text: {encoded_rail}\n")
+
+    # read encoded text from stdin (terminal/input)
+    encoded_rail_input = input().strip()
+    # read the key from stdin (terminal/input)
+    key_input = int(input().strip())
+    # decrypt and print the plain text using rail fence cipher
+    decoded_rail = rail_fence_decode(encoded_rail_input, key_input)
+    print(f"Encoded Text: {encoded_rail_input}")
+    print(f"Enter Key: {key_input}")
+    print(f"Decoded Text: {decoded_rail}\n")
+    # read the plain text from stdin (terminal/input)
+    plain_text_vigenere = input().strip()
+
+    # read the pass phrase from stdin (terminal/input)
+    pass_phrase = input().strip()
+    # encrypt and print the encoded text using Vigenere cipher
+    encoded_vigenere = vigenere_encode(plain_text_vigenere, pass_phrase)
+    print("Vigenere Cipher\n")
+    print(f"Plain Text: {plain_text_vigenere}")
+    print(f"Pass Phrase: {pass_phrase}")
+    print(f"Encoded Text: {encoded_vigenere}\n")
+    # read the encoded  text from stdin (terminal/input)
+    encoded_vigenere_input = input().strip()
+    # read the pass phrase from stdin (terminal/input)
+    pass_phrase_input = input().strip()
+    # decrypt and print the plain text using Vigenere cipher
+    decoded_vigenere = vigenere_decode(encoded_vigenere_input, pass_phrase_input)
+    print(f"Encoded Text: {encoded_vigenere_input}")
+    print(f"Pass Phrase: {pass_phrase_input}")
+    print(f"Decoded Text: {decoded_vigenere}\n")
+
+# Do NOT modify the following code.
+if __name__ == "__main__":
+    main()
