@@ -472,24 +472,22 @@ def main():
     graph = Graph()
 
     # read the number of vertices
-    num_vertices = int(input("Enter the number of courses: "))
+    num_vertices = int(sys.stdin.readline())
     # read the vertices and add them into the graph
     for _ in range(num_vertices):
-        course_label = input("Enter course label: ")
+        course_label = sys.stdin.readline().strip()
         graph.add_vertex(course_label)
     # read the number of edges
-    num_edges = int(input("Enter the number of prerequisites: "))
+    num_edges = int(sys.stdin.readline())
 
     # read the edges and insert them into the graph
     # you will need to call the method to convert them from their labels to their index
     for _ in range(num_edges):
-        prereq = input("Enter prerequisite course: ")
-        course = input("Enter course that depends on the prerequisite: ")
-
+        prereq, course = sys.stdin.readline().strip().split()
         start = graph.get_index(prereq)
         finish = graph.get_index(course)
-
         graph.add_edge(start, finish)
+
     ####################################################################################
     # DO NOT CHANGE ANYTHING BELOW THIS
     if graph.has_cycle():
