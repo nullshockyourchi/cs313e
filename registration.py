@@ -20,7 +20,7 @@ UT EID 2:
 import sys
 
 
-class HeapError(Exception): 
+class HeapError(Exception):
     """
     Custom exception class for heap errors.
     """
@@ -426,7 +426,7 @@ class Graph:
         # : Add code here. You may delete this comment when you are done.
         in_degree = {v.label: 0 for v in self.vertices}
 
-        for i, vertex in enumerate(self.vertices):
+        for i, _ in enumerate(self.vertices):
             for j, is_edge in enumerate(self.adjacency_matrix[i]):
                 if is_edge:
                     in_degree[self.vertices[j].label]+=1
