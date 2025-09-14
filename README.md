@@ -1,1 +1,1 @@
-this code is ass
+for class
